@@ -1,0 +1,40 @@
+﻿<Window x:Class="WpfApp2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp2"
+        mc:Ignorable="d"
+        Title="Видеотека" Height="450" Width="800">
+    <Grid ShowGridLines="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*" />
+            <RowDefinition Height="0.5*" />
+            <RowDefinition Height="AUTO" />
+        </Grid.RowDefinitions>
+        <ListView Name="MovieLibraryList" ItemsSource="{Binding MovieLibraryLines}" Grid.Row="0">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=ProducerName}" Width="Auto">Автор имя</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=ProducerSurname}" Width="Auto">Автор фамилия</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=MovieName}" Width="Auto">Название</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=MovieYear}" Width="Auto">Год</GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=MovieRating}" Width="Auto">Рейтинг</GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <DataGrid x:Name="MovieLibraryDataGrid" AutoGenerateColumns="False" 
+            EnableRowVirtualization="True" 
+            ItemsSource="{Binding Movies}" 
+            Margin="13,13,43,229" Grid.Row="1"
+            RowDetailsVisibilityMode="VisibleWhenSelected">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding MovieID}" Header="ID" Width="SizeToHeader" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding MovieName}" Header="Name" Width="0.3*" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding MovieYear}" Header="Year" Width="0.3*" IsReadOnly="True"/>
+                <DataGridTextColumn Binding="{Binding MovieRating}" Header="Rating" Width="0.3*" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Content="Save" HorizontalAlignment="Center" Height="20" Width="124" Margin="0,13,0,10" Grid.Row="2"/>
+    </Grid>
+</Window>
