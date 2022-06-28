@@ -1,60 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Configuration;
-
-using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using System.Reflection;
-using Microsoft.EntityFrameworkCore.Design;
 
 namespace WpfApp2
 {
     public class MovieLibraryContext : DbContext
     {
-/*
-        public MovieLibraryContext(DbContextOptions<MovieLibraryContext> options)
-            : base(options)
-        {
-            //    ChangeTracker.CascadeDeleteTiming = CascadeTiming.OnSaveChanges;
-            //    ChangeTracker.DeleteOrphansTiming = CascadeTiming.OnSaveChanges;
-        }
-*/
-        private readonly string _connectionString;
+        const string connectionString = "Server=(localdb)\\mssqllocaldb;Database=MovieLibrary;Trusted_Connection=True;";
 
-        public MovieLibraryContext(string connectionString)
-        {
-            _connectionString = connectionString;
-        }
-/*
-        public MovieLibraryContext()
-        {
-        }
-*/
+        public MovieLibraryContext() : base() { }
+
+        public MovieLibraryContext(DbContextOptions<MovieLibraryContext> options) : base(options) { }
+
         public DbSet<Producer> Producers { get; set; } = null!;
         public DbSet<Movie> Movies { get; set; } = null!;
 
-        protected override void OnConfiguring( DbContextOptionsBuilder optionsBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //string connectionDB = @ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            //optionsBuilder.UseSqlServer(connectionDB);
-
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder
-                    .EnableSensitiveDataLogging()
-                    .UseSqlServer(_connectionString
-                        , providerOptions => { providerOptions.EnableRetryOnFailure(); });
-            }
+            optionsBuilder
+                .EnableSensitiveDataLogging()
+                .UseSqlServer(connectionString
+                    , providerOptions => { providerOptions.EnableRetryOnFailure(); });
         }
-/*
+
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
         {
             return SaveChanges();
         }
+
         public override int SaveChanges()
         {
             throw new NotImplementedException("Нужно сохранять асинхронно!");
@@ -64,6 +37,5 @@ namespace WpfApp2
         {
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
-*/
     }
 }

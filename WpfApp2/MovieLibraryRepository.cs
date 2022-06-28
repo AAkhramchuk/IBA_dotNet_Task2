@@ -9,14 +9,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WpfApp2
 {
-/*
     public class MovieLibraryRepository : IRepository
     {
-        private MovieLibraryContext _db;
+        private readonly MovieLibraryContext _db;
 
-        public MovieLibraryRepository(string connectionDB)
+        public MovieLibraryRepository()
         {
-            _db = new MovieLibraryContext(connectionDB);
+            _db = new MovieLibraryContext();
         }
 
         public IEnumerable<Producer> GetProducerList()
@@ -109,6 +108,22 @@ namespace WpfApp2
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
+        /// <summary>
+        /// CSV file parsering
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <returns>Enumerated string block for db upload</returns>
+        public IEnumerable<string[]> ParseCSV(string fileName)
+        {
+            using (var file = new System.IO.StreamReader(fileName))
+            {
+                string line;
+                while ((line = file.ReadLine()) != null)
+                {
+                    yield return line.Split('\t');
+                }
+            }
+        }
     }
-*/
 }

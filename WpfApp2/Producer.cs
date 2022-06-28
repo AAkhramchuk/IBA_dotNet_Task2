@@ -27,6 +27,7 @@ namespace WpfApp2
                 OnPropertyChanged("ProducerID");
             }
         }
+        [MaxLength(20)]
         public string? Name
         {
             get { return _Name; }
@@ -36,6 +37,7 @@ namespace WpfApp2
                 OnPropertyChanged("Producer name");
             }
         }
+        [MaxLength(50)]
         public string? Surname
         {
             get { return _Surname; }

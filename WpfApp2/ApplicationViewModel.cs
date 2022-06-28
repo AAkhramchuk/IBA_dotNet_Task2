@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
-using System.Configuration;
+using LinqToDB.Data;
 
 namespace WpfApp2
 {
@@ -18,14 +12,9 @@ namespace WpfApp2
 
         public ApplicationViewModel()
         {
-            string connectionDB = @ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
+            //string connectionDB = @ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
-            //using (MovieLibraryRepository db = new MovieLibraryRepository(connectionDB))
-            using (var db = new MovieLibraryContext(connectionDB))
-            {
-            }
-            /*
-            using (MovieLibraryRepository db = new MovieLibraryRepository(connectionDB))
+            using (MovieLibraryRepository db = new MovieLibraryRepository())// connectionDB))
             {
                 db.Create();
 
@@ -43,9 +32,6 @@ namespace WpfApp2
                         , MovieName = db.GetMovie(1).Name, MovieYear = db.GetMovie(1).Year, MovieRating = db.GetMovie(1).Rating }
                 );
             }
-            */
-
-
         }
 
         private MovieLibraryView _selectedLine;
@@ -57,6 +43,23 @@ namespace WpfApp2
             {
                 _selectedLine = value;
                 OnPropertyChanged("SelectedLine");
+            }
+        }
+
+        public void DBupload()
+        {
+            using (MovieLibraryRepository db = new MovieLibraryRepository())
+            {
+                var csvItems = db.ParseCSV("filename");
+
+                db.BulkCopy(
+                    csvItems.Select(csv => new DestinationEntity
+                    {
+                       Field1 = int.Parse(csv[0]),
+                       Field2 = double.Parse(csv[1]),
+                       LongStr = csv[2]
+                    })
+                );
             }
         }
 

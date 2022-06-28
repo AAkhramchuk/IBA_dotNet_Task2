@@ -68,16 +68,6 @@ namespace WpfApp2
             }
         }
 
-        /*        public ICollection<ProducerView> Producers { get; set; }
-                public ICollection<MovieView> Movies { get; set; }
-                public int MovieLibrary { get; set; }
-
-                public MovieLibraryView(Producer producer, Movie movie)
-                {
-                    _producer = producer;
-                    _movie = movie;
-                }
-        */
         //       public string ID
         //       {
         //           get { return _library.ID; }
