@@ -11,8 +11,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 using System.Windows;
+using System.Data;
+using System.IO;
+using System.Data.SqlClient;
 
 namespace WpfApp2
 {
@@ -24,8 +28,6 @@ namespace WpfApp2
         public MainWindow()
         {
             InitializeComponent();
-
-            DataContext = new ApplicationViewModel();
         }
     }
 }

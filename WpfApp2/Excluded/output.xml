@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestProgram>
+  <Record id="1000001">
+    <FirstName>Тест</FirstName>
+    <LastName>ТестТест</LastName>
+    <MovieName>MovieName</MovieName>
+    <MovieYear>1</MovieYear>
+    <MovieRating>1</MovieRating>
+  </Record>
+  <Record id="1000002">
+    <FirstName>Тест</FirstName>
+    <LastName>ТестТест</LastName>
+    <MovieName>MovieName</MovieName>
+    <MovieYear>1</MovieYear>
+    <MovieRating>1</MovieRating>
+  </Record>
+  <Record id="1000003">
+    <FirstName>Тест</FirstName>
+    <LastName>ТестТест</LastName>
+    <MovieName>MovieName</MovieName>
+    <MovieYear>1</MovieYear>
+    <MovieRating>1</MovieRating>
+  </Record>
+</TestProgram>

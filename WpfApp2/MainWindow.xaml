@@ -5,36 +5,145 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp2"
         mc:Ignorable="d"
-        Title="Видеотека" Height="450" Width="800">
-    <Grid ShowGridLines="True">
+        Title="Видеотека" Height="450" Width="900">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="200" />
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.5*" />
-            <RowDefinition Height="0.5*" />
-            <RowDefinition Height="AUTO" />
+            <RowDefinition Height="51" />
+            <RowDefinition />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <ListView Name="MovieLibraryList" ItemsSource="{Binding MovieLibraryLines}" Grid.Row="0">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=ProducerName}" Width="Auto">Автор имя</GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=ProducerSurname}" Width="Auto">Автор фамилия</GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=MovieName}" Width="Auto">Название</GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=MovieYear}" Width="Auto">Год</GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Path=MovieRating}" Width="Auto">Рейтинг</GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <DataGrid x:Name="MovieLibraryDataGrid" AutoGenerateColumns="False" 
-            EnableRowVirtualization="True" 
-            ItemsSource="{Binding Movies}" 
-            Margin="13,13,43,229" Grid.Row="1"
-            RowDetailsVisibilityMode="VisibleWhenSelected">
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding MovieID}" Header="ID" Width="SizeToHeader" IsReadOnly="True"/>
-                <DataGridTextColumn Binding="{Binding MovieName}" Header="Name" Width="0.3*" IsReadOnly="True"/>
-                <DataGridTextColumn Binding="{Binding MovieYear}" Header="Year" Width="0.3*" IsReadOnly="True"/>
-                <DataGridTextColumn Binding="{Binding MovieRating}" Header="Rating" Width="0.3*" IsReadOnly="True"/>
-            </DataGrid.Columns>
+        <DataGrid x:Name="MovieDataGrid"
+                  ItemsSource="{Binding MovieLines, Mode=Default}"
+                  Grid.Column="0" Grid.Row="1"
+                  IsReadOnly="True" SelectionMode="Extended" SelectionUnit="Cell">
         </DataGrid>
-        <Button Content="Save" HorizontalAlignment="Center" Height="20" Width="124" Margin="0,13,0,10" Grid.Row="2"/>
+        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical">
+            <Button Margin="5,50,5,15"
+                    Command="{Binding LoadButton}">Загрузить файл</Button>
+            <Button Margin="5,5,5,5"
+                    Command="{Binding FirstButton}">В начало</Button>
+            <Button Margin="5,5,5,5"
+                    Command="{Binding PreviousButton}">Назад</Button>
+            <Button Margin="5,5,5,5"
+                    Command="{Binding NextButton}">Вперёд</Button>
+            <Button Margin="5,5,5,5"
+                    Command="{Binding LastButton}">В конец</Button>
+            <Label Margin="5,5,5,5"
+                   HorizontalAlignment="Center"
+                   Content="{Binding Path=PagedNumber}">
+            </Label>
+            <Button Margin="5,40,5,5"
+                    Command="{Binding CreateXMLbutton}">Выгрузить в XML</Button>
+            <Button Margin="5,5,5,5"
+                    Command="{Binding CreateExcelbutton}">Выгрузить в Excel</Button>
+        </StackPanel>
+        <StackPanel Grid.Column="0" Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    Orientation='Horizontal'
+                    HorizontalAlignment='Left'>
+            <StackPanel Orientation='Vertical'
+                    HorizontalAlignment='Left'>
+                <Label x:Name="IDlabel"
+                   Content="Фильтр по ID" FontSize="10"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top" />
+                <TextBox x:Name="IDtextBox"
+                         FontSize="12"
+                         Text="{Binding IDtextBox,
+                                        Mode=TwoWay,
+                                        UpdateSourceTrigger=PropertyChanged}">
+                </TextBox>
+            </StackPanel>
+            <StackPanel Orientation='Vertical'
+                    HorizontalAlignment='Left'>
+                <Label x:Name="ProducerNameLabel"
+                   Content="Фильтр по ProducerName" FontSize="10"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top" />
+                <TextBox x:Name="ProducerNameTextBox"
+                         FontSize="12"
+                         Text="{Binding ProducerNameTextBox,
+                                        TargetNullValue='',
+                                        Mode=TwoWay,
+                                        UpdateSourceTrigger=PropertyChanged}">
+                </TextBox>
+            </StackPanel>
+            <StackPanel Orientation='Vertical'
+                    HorizontalAlignment='Left'>
+                <Label x:Name="ProducerSurnameLabel"
+                   Content="Фильтр по ProducerSurname" FontSize="10"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top" />
+                <TextBox x:Name="ProducerSurnameTextBox"
+                         FontSize="12"
+                         Text="{Binding ProducerSurnameTextBox,
+                                        TargetNullValue='',
+                                        Mode=TwoWay,
+                                        UpdateSourceTrigger=PropertyChanged}">
+                </TextBox>
+            </StackPanel>
+            <StackPanel Orientation='Vertical'
+                    HorizontalAlignment='Left'>
+                <Label x:Name="MovieNameLabel"
+                   Content="Фильтр по ProducerSurname" FontSize="10"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top" />
+                <TextBox x:Name="MovieNameTextBox"
+                         FontSize="12"
+                         Width="200"
+                         Text="{Binding MovieNameTextBox,
+                                        TargetNullValue='',
+                                        Mode=TwoWay,
+                                        UpdateSourceTrigger=PropertyChanged}">
+                </TextBox>
+            </StackPanel>
+            <StackPanel Orientation='Vertical'
+                    HorizontalAlignment='Left'>
+                <Label x:Name="MovieYearLabel"
+                   Content="Фильтр по MovieYear" FontSize="10"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top" />
+                <TextBox x:Name="MovieYearTextBox"
+                         FontSize="12"
+                         Text="{Binding MovieYearTextBox,
+                                        TargetNullValue='',
+                                        Mode=TwoWay,
+                                        UpdateSourceTrigger=PropertyChanged}">
+                </TextBox>
+            </StackPanel>
+            <StackPanel Orientation='Vertical'
+                    HorizontalAlignment='Left'>
+                <Label x:Name="MovieRatingLabel"
+                   Content="Фильтр по MovieRating" FontSize="10"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top" />
+                <TextBox x:Name="MovieRatingTextBox"
+                         FontSize="12"
+                         Text="{Binding MovieRatingTextBox,
+                                        TargetNullValue='',
+                                        Mode=TwoWay,
+                                        UpdateSourceTrigger=PropertyChanged}">
+                </TextBox>
+            </StackPanel>
+            <Button Margin="5,5,5,5"
+                    Command="{Binding FilterButton}">Применить фильтр</Button>
+        </StackPanel>
+        <StackPanel Grid.Column="0" Grid.Row="2"
+                    Grid.ColumnSpan="2"
+                    Orientation='Horizontal'
+                    HorizontalAlignment='Left'>
+            <StatusBar>
+                <TextBlock x:Name="StatusTextBlock"
+                         FontSize="14"
+                         Text="{Binding StatusTextBlock,
+                                        Mode=Default,
+                                        UpdateSourceTrigger=PropertyChanged}">
+                </TextBlock>
+            </StatusBar>
+        </StackPanel>
     </Grid>
 </Window>
