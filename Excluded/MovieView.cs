@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using WpfApp2.Model;
 
 namespace WpfApp2
 {

@@ -2,10 +2,6 @@
 using System.Runtime.CompilerServices;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore.SqlServer;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Collections;
 
 namespace WpfApp2.Model
 {
@@ -13,7 +9,7 @@ namespace WpfApp2.Model
     /// Model Movie
     /// </summary>
     [Table("Movie")]
-    public partial class Movie : INotifyPropertyChanged, IEnumerable
+    public partial class Movie : INotifyPropertyChanged
     {
         private int _ID;
         private string? _producerName;
@@ -34,7 +30,7 @@ namespace WpfApp2.Model
             set
             {
                 _ID = value;
-                OnPropertyChanged("ID");
+                OnPropertyChanged(nameof(ID));
             }
         }
 
@@ -48,7 +44,7 @@ namespace WpfApp2.Model
             set
             {
                 _producerName = value;
-                OnPropertyChanged("ProducerName");
+                OnPropertyChanged(nameof(ProducerName));
             }
         }
 
@@ -62,7 +58,7 @@ namespace WpfApp2.Model
             set
             {
                 _producerSurname = value;
-                OnPropertyChanged("ProducerSurname");
+                OnPropertyChanged(nameof(ProducerSurname));
             }
         }
 
@@ -76,7 +72,7 @@ namespace WpfApp2.Model
             set
             {
                 _movieName = value;
-                OnPropertyChanged("MovieName");
+                OnPropertyChanged(nameof(MovieName));
             }
         }
 
@@ -89,7 +85,7 @@ namespace WpfApp2.Model
             set
             {
                 _movieYear = value;
-                OnPropertyChanged("MovieYear");
+                OnPropertyChanged(nameof(MovieYear));
             }
         }
 
@@ -102,7 +98,7 @@ namespace WpfApp2.Model
             set
             {
                 _movieRating = value;
-                OnPropertyChanged("MovieRating");
+                OnPropertyChanged(nameof(MovieRating));
             }
         }
 
@@ -111,25 +107,5 @@ namespace WpfApp2.Model
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
-
-        /// <summary>
-        /// Data structure enumerated names 
-        /// </summary>
-        private IEnumerable Events
-        {
-            get
-            {
-                yield return "ID";
-                yield return "ProducerName";
-                yield return "ProducerSurname";
-                yield return "MovieName";
-                yield return "MovieYear";
-                yield return "MovieRating";
-            }
-        }
-
-        public IEnumerator GetEnumerator() => Events.GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

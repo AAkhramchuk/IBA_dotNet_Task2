@@ -89,7 +89,7 @@
             <StackPanel Orientation='Vertical'
                     HorizontalAlignment='Left'>
                 <Label x:Name="MovieNameLabel"
-                   Content="Фильтр по ProducerSurname" FontSize="10"
+                   Content="Фильтр по MovieName" FontSize="10"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Top" />
                 <TextBox x:Name="MovieNameTextBox"

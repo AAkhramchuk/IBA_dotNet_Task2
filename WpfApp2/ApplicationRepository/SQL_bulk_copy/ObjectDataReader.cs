@@ -1,4 +1,4 @@
-﻿namespace WpfApp2.SQL_bulk_copy
+﻿namespace WpfApp2.ApplicationRepository.SQL_bulk_copy
 {
     using System;
     using System.Collections.Generic;
@@ -13,17 +13,17 @@
         /// The enumerator for the IEnumerable{TData} passed to the constructor for 
         /// this instance.
         /// </summary>
-        private IEnumerator<TData> dataEnumerator;
+        private IEnumerator<TData> _dataEnumerator;
 
         /// <summary>
         /// The lookup of accessor functions for the properties on the TData type.
         /// </summary>
-        private Func<TData, object>[] accessors;
+        private Func<TData, object>[] _accessors;
 
         /// <summary>
         /// The lookup of property names against their ordinal positions.
         /// </summary>
-        private Dictionary<string, int> ordinalLookup;
+        private Dictionary<string, int> _ordinalLookup;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectDataReader&lt;TData&gt;"/> class.
@@ -31,7 +31,7 @@
         /// <param name="data">The data this instance should enumerate through.</param>
         public ObjectDataReader(IEnumerable<TData> data)
         {
-            dataEnumerator = data.GetEnumerator();
+            _dataEnumerator = data.GetEnumerator();
 
             // Get all the readable properties for the class and
             // compile an expression capable of reading it
@@ -46,8 +46,8 @@
                 })
                 .ToArray();
 
-            accessors = propertyAccessors.Select(p => p.Accessor).ToArray();
-            ordinalLookup = propertyAccessors.ToDictionary(
+            _accessors = propertyAccessors.Select(p => p.Accessor).ToArray();
+            _ordinalLookup = propertyAccessors.ToDictionary(
                 p => p.Property.Name,
                 p => p.Index,
                 StringComparer.OrdinalIgnoreCase);
@@ -93,7 +93,7 @@
 
         public bool IsClosed
         {
-            get { return dataEnumerator == null; }
+            get { return _dataEnumerator == null; }
         }
 
         public bool NextResult()
@@ -103,12 +103,12 @@
 
         public bool Read()
         {
-            if (dataEnumerator == null)
+            if (_dataEnumerator == null)
             {
                 throw new ObjectDisposedException("ObjectDataReader");
             }
 
-            return dataEnumerator.MoveNext();
+            return _dataEnumerator.MoveNext();
         }
 
         public int RecordsAffected
@@ -130,10 +130,10 @@
         {
             if (disposing)
             {
-                if (dataEnumerator != null)
+                if (_dataEnumerator != null)
                 {
-                    dataEnumerator.Dispose();
-                    dataEnumerator = null;
+                    _dataEnumerator.Dispose();
+                    _dataEnumerator = null;
                 }
             }
         }
@@ -144,7 +144,7 @@
 
         public int FieldCount
         {
-            get { return accessors.Length; }
+            get { return _accessors.Length; }
         }
 
         public bool GetBoolean(int i)
@@ -235,7 +235,7 @@
         public int GetOrdinal(string name)
         {
             int ordinal;
-            if (!ordinalLookup.TryGetValue(name, out ordinal))
+            if (!_ordinalLookup.TryGetValue(name, out ordinal))
             {
                 throw new InvalidOperationException("Unknown parameter name " + name);
             }
@@ -250,12 +250,12 @@
 
         public object GetValue(int i)
         {
-            if (dataEnumerator == null)
+            if (_dataEnumerator == null)
             {
                 throw new ObjectDisposedException("ObjectDataReader");
             }
 
-            return accessors[i](dataEnumerator.Current);
+            return _accessors[i](_dataEnumerator.Current);
         }
 
         public int GetValues(object[] values)

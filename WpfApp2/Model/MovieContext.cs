@@ -1,7 +1,6 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using System.Reflection;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Configuration;
+using System.Reflection;
 
 namespace WpfApp2.Model
 {
@@ -10,9 +9,11 @@ namespace WpfApp2.Model
     /// </summary>
     public class MovieContext : DbContext
     {
-        //public readonly string connectionString = @$"{ConfigurationManager.ConnectionStrings["DefaultConnection"]}";
-        public const string connectionString = @"Server=(localdb)\mssqllocaldb;Database=MovieLibrary;Trusted_Connection=True;";
-
+        /// <summary>
+        /// Connection string
+        /// </summary>
+        public readonly string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ToString();
+        
         public MovieContext() : base() { }
 
         public MovieContext(DbContextOptions<MovieContext> options) : base(options) { }
@@ -20,7 +21,7 @@ namespace WpfApp2.Model
         /// <summary>
         /// Used to query and save Movie instances
         /// </summary>
-        public DbSet<Movie> Movies { get; set; }
+        public DbSet<Movie> Movies { get { return Set<Movie>(); } set { } }
 
         /// <summary>
         /// Configuring a database connection
